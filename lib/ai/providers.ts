@@ -12,6 +12,23 @@ import {
   titleModel,
 } from './models.test';
 
+import {createOpenAI} from '@ai-sdk/openai';
+
+const openai = createOpenAI({
+  // custom settings, e.g.
+  baseURL="https://agnts.portalos.ru/v1",
+  compatibility: 'strict', // strict mode, enable when using the OpenAI API
+});
+
+const model = openai.chat('gpt-3.5-turbo', {
+  logitBias: {
+    // optional likelihood for specific tokens
+    '50256': -100,
+  },
+  user: 'test-user', // optional unique user identifier
+});
+
+
 export const myProvider = isTestEnvironment
   ? customProvider({
       languageModels: {
